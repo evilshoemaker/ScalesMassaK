@@ -7,8 +7,8 @@
     <ProjectGuid>{6313CC73-C389-4D49-86D0-216A024A231E}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ScalesMassaK</RootNamespace>
-    <AssemblyName>ScalesMassaK</AssemblyName>
+    <RootNamespace>ScalesMassa</RootNamespace>
+    <AssemblyName>ScalesMassa</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -82,10 +82,13 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="icons\connect.ico" />
     <Content Include="icons\connect.png" />
+    <None Include="icons\disconnect.ico" />
     <Content Include="icons\disconnect.png" />
     <Content Include="icons\iconfinder_70_2529982.ico" />
     <Content Include="icons\iconfinder_70_2529982.png" />
+    <None Include="Resources\ConnectIcon.png" />
   </ItemGroup>
   <ItemGroup>
     <COMReference Include="ScalesMassaK">
