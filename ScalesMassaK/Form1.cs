@@ -19,11 +19,10 @@ namespace ScalesMassa
         private string unitStr = "";
         private string weightStr = "";
 
-        private int countSend = 10;
-
         private int oldWeightValue = 0;
 
         private DateTime prevTime = DateTime.Now;
+        private DateTime lastSendTime = DateTime.Now;
 
         private bool isConnected = false;
         private bool isSend = false;
@@ -40,21 +39,36 @@ namespace ScalesMassa
             serialComboBox.Items.AddRange(ports);
 
             serialComboBox.Text = ScalesMassa.Properties.Settings.Default.ComPort;
+            //countSend = ScalesMassa.Properties.Settings.Default.СountSend;
+            //label4.Text = countSend.ToString();
         }
 
         private void SendValueToActiveWindow()
         {
-            if (countSend < 1)
+            if ((DateTime.Now - lastSendTime).TotalMilliseconds < 2000)
+            {
+                isSend = false;
                 return;
+            }
+                
+            lastSendTime = DateTime.Now;
+            //if (countSend < 1)
+            //    return;
 
-            Clipboard.SetText(weightStr);
+            /*Clipboard.SetText(weightStr);
             SendKeys.Send("^v");
+            SendKeys.SendWait("{ENTER}");*/
+
+            foreach (char f in weightStr)
+            {
+                SendKeys.Send(f.ToString());
+            }
+
             SendKeys.SendWait("{ENTER}");
 
+            //textBox1.Text += weightStr + "\r\n";
 
-            countSend--;
-
-            label4.Text = countSend.ToString();
+            isSend = true;
         }
 
         private void timer_Tick(object sender, EventArgs e)
@@ -85,10 +99,10 @@ namespace ScalesMassa
                     weightStr = w.ToString();
                     label1.Text = weightStr + " " + unitStr;
 
-                    if (oldWeightValue != w)
+                    /*if (oldWeightValue != w)
                     {
                         isSend = false;
-                    }
+                    }*/
 
                     if (scale.Stable == 1)
                     {
@@ -99,20 +113,17 @@ namespace ScalesMassa
                             oldWeightValue = w;
                             prevTime = DateTime.Now;
                             isSend = false;
+                            //SendValueToActiveWindow();
                         }
-                        else if (w > 10 && oldWeightValue == w && !isSend)
+                        /*else if (w > 10 && oldWeightValue == w && !isSend)
                         {
-                            label5.Text = weightStr;
-                            textBox1.Text += weightStr + "\r\n";
-                            isSend = true;
-                        }
-                        /*else if (w > 10 && oldWeightValue == w && !isSend &&
-                            ((DateTime.Now - prevTime).TotalMilliseconds > 2000))
-                        {
-                            label5.Text = weightStr;
-                            textBox1.Text += weightStr + "\r\n";
-                            isSend = true;
+                            SendValueToActiveWindow();
                         }*/
+                        else if (w > 10 && oldWeightValue == w && !isSend &&
+                            ((DateTime.Now - prevTime).TotalMilliseconds > 500))
+                        {
+                            SendValueToActiveWindow();
+                        }
                     }
                     else
                     {
@@ -208,6 +219,27 @@ namespace ScalesMassa
         {
             e.Cancel = true;
             this.WindowState = FormWindowState.Minimized;
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            //textBox1.Text += Monitor.GetTopWindowName() + "\r\n";
+
+            Monitor.PasteActiveWindow();
+        }
+
+        private void testTimer_Tick(object sender, EventArgs e)
+        {
+            //Monitor.PasteActiveWindow();
+
+            /*string test = "test";
+
+            foreach (char f in test)
+            {
+                SendKeys.Send(f.ToString());
+            }
+
+            SendKeys.SendWait("{ENTER}");*/
         }
     }
 }

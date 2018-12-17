@@ -34,5 +34,17 @@ namespace ScalesMassa.Properties {
                 this["ComPort"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("10")]
+        public int СountSend {
+            get {
+                return ((int)(this["СountSend"]));
+            }
+            set {
+                this["СountSend"] = value;
+            }
+        }
     }
 }
